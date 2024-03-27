@@ -30,6 +30,8 @@
         {
             BtnShowReport = new DevExpress.XtraEditors.SimpleButton();
             BtnShowRerportWithFilterString = new DevExpress.XtraEditors.SimpleButton();
+            simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             SuspendLayout();
             // 
             // BtnShowReport
@@ -50,11 +52,33 @@
             BtnShowRerportWithFilterString.Text = "Show Report With Filter String\r\n";
             BtnShowRerportWithFilterString.Click += BtnShowRerportWithFilterString_Click;
             // 
+            // simpleButton1
+            // 
+            simpleButton1.Location = new System.Drawing.Point(12, 138);
+            simpleButton1.Name = "simpleButton1";
+            simpleButton1.Size = new System.Drawing.Size(228, 120);
+            simpleButton1.TabIndex = 2;
+            simpleButton1.Text = "Show Report With Filter Dict";
+            simpleButton1.Click += SimpleButton1_Click;
+            // 
+            // simpleButton2
+            // 
+            simpleButton2.Appearance.Options.UseTextOptions = true;
+            simpleButton2.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            simpleButton2.Location = new System.Drawing.Point(277, 138);
+            simpleButton2.Name = "simpleButton2";
+            simpleButton2.Size = new System.Drawing.Size(228, 120);
+            simpleButton2.TabIndex = 3;
+            simpleButton2.Text = "Show Report With Filter Dict with UnWanted Data ";
+            simpleButton2.Click += SimpleButton2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(632, 278);
+            Controls.Add(simpleButton2);
+            Controls.Add(simpleButton1);
             Controls.Add(BtnShowRerportWithFilterString);
             Controls.Add(BtnShowReport);
             Name = "Form1";
@@ -67,6 +91,8 @@
 
         private DevExpress.XtraEditors.SimpleButton BtnShowReport;
         private DevExpress.XtraEditors.SimpleButton BtnShowRerportWithFilterString;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
     }
 }
 

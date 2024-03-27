@@ -56,7 +56,90 @@ public partial class FrmDevExReportViewer : XtraForm
         }
     }
 
+    public FrmDevExReportViewer(string FilePath, Dictionary<string, string> SelectionFormula, string Title, string Range) : this(Title, Range)
+    {
+        string FilePathX = XrRepotPath(FilePath);
+        if (File.Exists(FilePathX))
+        {
+            XtraReport Report = XtraReport.FromFile(FilePathX, true);
+            var rpr = DoReportAction(Report, SelectionFormula, Title, Range);
+            documentViewer1.DocumentSource = rpr;
+        }
+        else
+        {
+            XtraMessageBox.Show($"\"{FilePath}\" not found");
+        }
+    }
+
+
     #region 
+
+    private XtraReport DoReportAction(XtraReport Report, Dictionary<string, string> SelectionFormula, string Title, string Range)
+    {
+        if (Report != null)
+        {
+            Text = Title + "(" + Report.Name + ")";
+            Report.FilterString = null;
+            if (SelectionFormula.Any())
+            {
+                string Filter = "";
+
+                if (Report.DataSource is SqlDataSource SqlDS1)
+                {
+                    SqlDS1.Queries.ForEach(s => { (s as SelectQuery).FilterString = null; });
+                }
+
+                if (Report.DataSource is SqlDataSource SqlDS)
+                {
+                    SelectionFormula.ForEach(s =>
+                    {
+                        var dm = SqlDS.Queries.Where(x => x.Name.ToUpper() == s.Key.ToUpper()).FirstOrDefault();
+                        if (dm != null)
+                        {
+                            //Filter += dm.Name + "." + s.Value;
+                            if (dm is SelectQuery XX)
+                            {
+                                string Farm = s.Value;
+
+                                if (XX.FilterString != "")
+                                {
+                                    if (!Farm.Trim().StartsWith("AND", StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        Farm = " AND " + Farm;
+                                    }
+                                }
+                                else
+                                {
+                                    if (Farm.Trim().StartsWith("AND", StringComparison.InvariantCultureIgnoreCase) && Farm.Trim().Length > 4)
+                                    {
+                                        Farm = Farm.Trim().Substring(3, Farm.Trim().Length - 3);
+                                    }
+                                }
+
+                                if (Farm.Trim().StartsWith("AND", StringComparison.InvariantCultureIgnoreCase) && Farm.Trim().Length > 4)
+                                {
+                                    Farm = Farm.Trim().Substring(3, Farm.Trim().Length - 3);
+                                }
+
+
+
+                                XX.FilterString = XX.FilterString + Farm;
+                            }
+                        }
+                    });
+                }
+                //Report.FilterString = Filter;
+            }
+            return SetDefaultValues(Report, Title, Range);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+
     private XtraReport DoReportAction(XtraReport Report, string SelectionFormula, string Title, string Range)
     {
         if (Report != null)
