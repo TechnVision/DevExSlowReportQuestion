@@ -48,7 +48,7 @@ namespace DevExSlowReportQuestion
         {
             Dictionary<string, string> map = new Dictionary<string, string>()
             {
-                { "Account_Master", "[Ac_Code] = 822022" }
+                { "Account_Master", "[Ac_Name] = 'SHALIMAR E 000112022 8 SUNDRY C'" }
             };
             FrmDevExReportViewer fmr = new("PurcDateWise", map, "Report with Filter String", "");
             fmr.Show();
